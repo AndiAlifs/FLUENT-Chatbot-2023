@@ -50,6 +50,7 @@ for param in dec_model.transformer.h[:-15].parameters():
 for param in enc_model.encoder.layer[:-15].parameters():
     param.requires_grad = True
 
-print("Encoder Trainable Parameters : {}".format(sum(p.numel() for p in enc_model.parameters() if p.requires_grad)))
-print("Decoder Trainable Parameters : {}".format(sum(p.numel() for p in dec_model.parameters() if p.requires_grad)))
+print("Encoder Trainable Parameters : {}%".format(sum(p.numel() for p in enc_model.parameters() if p.requires_grad)/sum(p.numel() for p in enc_model.parameters())*100))
+print("Decoder Trainable Parameters : {}%".format(sum(p.numel() for p in dec_model.parameters() if p.requires_grad)/sum(p.numel() for p in dec_model.parameters())*100))
+
 
