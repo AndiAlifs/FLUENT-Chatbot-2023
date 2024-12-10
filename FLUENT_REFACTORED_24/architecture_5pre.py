@@ -1,6 +1,8 @@
 import torch
 from torch import nn
 
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
 class FLUENTSOTA(nn.Module):
     def __init__(self, enc_model, dec_model, enc_tokenizer, dec_tokenizer, max_length=200):
         super(FLUENTSOTA, self).__init__()
