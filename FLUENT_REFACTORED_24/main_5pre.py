@@ -16,7 +16,7 @@ enc_model = AutoModel.from_pretrained(encoder_id)
 decoder_id = 'indonesian-nlp/gpt2-medium-indonesian'
 print("initiliazing decoder model and tokenizer : {}".format(decoder_id))
 dec_model = GPT2LMHeadModel.from_pretrained(decoder_id)
-dec_tokenizer = GPT2Tokenizer.from_pretrained(decoder_id)
+dec_tokenizer = GPT2Tokenizer.from_pretrained(decoder_id, clean_up_tokenization_spaces=True)
 
 dec_tokenizer.add_tokens(['[PRE1]'])
 dec_tokenizer.add_tokens(['[PRE2]'])
