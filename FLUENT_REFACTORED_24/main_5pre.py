@@ -83,7 +83,7 @@ for ep in range(epochs):
     torch.cuda.empty_cache()
 
     total_loss = 0
-    for instance in qa_paired_test.iterrows():
+    for instance in qa_paired.iterrows():
         # print("---------------")
         optimizer.zero_grad()
 
@@ -105,17 +105,17 @@ for ep in range(epochs):
     print(f'Epoch {ep+1}/{epochs} - Loss: {total_loss:.4f}')
     if (ep+1) % 10 == 0:
         print(f'\n-----------------------------------------')
-        test_question = qa_paired_test['Pertanyaan'].iloc[0]
+        test_question = qa_paired['Pertanyaan'].iloc[0]
         outputs = model.generate(test_question)
         decoded_output = model.dec_tokenizer.decode(outputs[0])
         print(f'Q >>> {test_question}')
         print(f'A <<< {decoded_output}')
-        test_question = qa_paired_test['Pertanyaan'].iloc[1]
+        test_question = qa_paired['Pertanyaan'].iloc[1]
         outputs = model.generate(test_question)
         decoded_output = model.dec_tokenizer.decode(outputs[0])
         print(f'Q >>> {test_question}')
         print(f'A <<< {decoded_output}')
-        test_question = qa_paired_test['Pertanyaan'].iloc[4]
+        test_question = qa_paired['Pertanyaan'].iloc[4]
         outputs = model.generate(test_question)
         decoded_output = model.dec_tokenizer.decode(outputs[0])
         print(f'Q >>> {test_question}')
