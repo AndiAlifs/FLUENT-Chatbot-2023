@@ -2,9 +2,9 @@ import pandas as pd
 
 print("start loading data from data.py")
 # knowledgebase_url = 'https://github.com/AndiAlifs/FLUENT-Chatbot-2023/raw/main/KnowledgeBaseFilkom.xlsx'
-knowledgebase_url = 'https://github.com/AndiAlifs/FLUENT-Chatbot-2023/raw/main/KnowledgeBaseFilkom_simple.xlsx'
+knowledgebase_url = './KnowledgeBaseFilkom.xlsx'
 knowledgebase = pd.read_excel(knowledgebase_url)
-knowledgebase_eval_url = 'https://github.com/AndiAlifs/FLUENT-Chatbot-2023/raw/main/KnowledgeBaseFilkom_eval.xlsx'
+knowledgebase_eval_url = './KnowledgeBaseFilkom_eval.xlsx'
 knowledgebase_eval = pd.read_excel(knowledgebase_eval_url)
 
 qa_paired = knowledgebase.drop(columns=knowledgebase.columns.drop(['Pertanyaan', 'Jawaban']))
