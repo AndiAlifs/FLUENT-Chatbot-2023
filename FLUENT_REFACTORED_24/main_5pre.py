@@ -10,7 +10,7 @@ import time
 
 encoder_id = 'firqaaa/indo-sentence-bert-base'
 print("initiliazing encoder model and tokenizer : {}".format(encoder_id))
-enc_tokenizer = AutoTokenizer.from_pretrained(encoder_id, clean_up_tokenization_spaces=Trues)
+enc_tokenizer = AutoTokenizer.from_pretrained(encoder_id, clean_up_tokenization_spaces=True)
 enc_model = AutoModel.from_pretrained(encoder_id)
 
 decoder_id = 'indonesian-nlp/gpt2-medium-indonesian'
