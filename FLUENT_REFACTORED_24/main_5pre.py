@@ -9,6 +9,7 @@ from evaluation_tool import calculate_bleu, count_bleu_score
 import torch
 import matplotlib.pyplot as plt
 import time
+import pandas as pd
 
 encoder_id = 'firqaaa/indo-sentence-bert-base'
 print("initiliazing encoder model and tokenizer : {}".format(encoder_id))
