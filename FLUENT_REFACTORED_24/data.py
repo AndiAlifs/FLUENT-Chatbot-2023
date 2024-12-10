@@ -3,8 +3,8 @@ import pandas as pd
 print("start loading data from data.py")
 
 base_path = '/home/andyalyfsyah/FLUENT-Chatbot-2023/'
-# knowledgebase_url = 'https://github.com/AndiAlifs/FLUENT-Chatbot-2023/raw/main/KnowledgeBaseFilkom.xlsx'
-knowledgebase_url = base_path + 'KnowledgeBaseFilkom.xlsx'
+# knowledgebase_url = base_path + 'KnowledgeBaseFilkom.xlsx'
+knowledgebase_url = base_path + 'KnowledgeBaseFilkom_simple.xlsx'
 knowledgebase = pd.read_excel(knowledgebase_url)
 knowledgebase_eval_url = base_path + 'KnowledgeBaseFilkom_eval.xlsx'
 knowledgebase_eval = pd.read_excel(knowledgebase_eval_url)
