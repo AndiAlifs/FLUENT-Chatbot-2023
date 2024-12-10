@@ -10,9 +10,9 @@ knowledgebase_eval_url = base_path + 'KnowledgeBaseFilkom_eval.xlsx'
 knowledgebase_eval = pd.read_excel(knowledgebase_eval_url)
 
 qa_paired = knowledgebase.drop(columns=knowledgebase.columns.drop(['Pertanyaan', 'Jawaban']))
-qa_paired = qa_paired.dropna(inplace=True)
+qa_paired.dropna(inplace=True)
 print("finished loading data from data.py, get {} qa_paired".format(len(qa_paired)))
 
 qa_paired_eval = knowledgebase_eval.drop(columns=knowledgebase_eval.columns.drop(['Pertanyaan', 'Jawaban']))
-qa_paired_eval = qa_paired_eval.dropna(inplace=True)
+qa_paired_eval.dropna(inplace=True)
 print("finished loading data from data.py, get {} qa_paired_eval".format(len(qa_paired_eval)))
