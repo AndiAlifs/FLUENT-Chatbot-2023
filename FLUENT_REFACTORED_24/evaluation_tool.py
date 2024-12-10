@@ -1,3 +1,5 @@
+from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
+
 def calculate_bleu(preds, questions, answers):
     bleu_score_1 = 0
     bleu_score_2 = 0
