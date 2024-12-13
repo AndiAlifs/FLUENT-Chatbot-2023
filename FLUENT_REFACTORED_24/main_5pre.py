@@ -5,6 +5,7 @@ from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 from data import qa_paired, qa_paired_eval
 from architecture_5pre import FLUENTSOTA
 from evaluation_tool import calculate_bleu, count_bleu_score
+from neptune_fluent import Neptune_Fluent 
 
 import torch
 import matplotlib.pyplot as plt
