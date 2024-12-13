@@ -5,12 +5,12 @@ from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 from data import qa_paired, qa_paired_eval
 from architecture_5pre import FLUENTSOTA
 from evaluation_tool import calculate_bleu, count_bleu_score
+from neptune_fluent import Neptune_Fluent 
 
 import torch
 import matplotlib.pyplot as plt
 import time
 import pandas as pd
-import neptune_fluent
 
 encoder_id = 'indobenchmark/indobert-base-p1'
 print("initiliazing encoder model and tokenizer : {}".format(encoder_id))
@@ -139,4 +139,6 @@ for ep in range(epochs):
 
     run["train/bleu"].append(bleu_result_eval["cumulative-4-gram"])
     run["eval/bleu"].append(bleu_result_train["cumulative-4-gram"])
+
+run.stop()
 print("finished training")
