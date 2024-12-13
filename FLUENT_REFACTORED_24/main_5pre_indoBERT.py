@@ -10,6 +10,7 @@ import torch
 import matplotlib.pyplot as plt
 import time
 import pandas as pd
+import neptune_fluent
 
 encoder_id = 'indobenchmark/indobert-base-p1'
 print("initiliazing encoder model and tokenizer : {}".format(encoder_id))
@@ -78,6 +79,10 @@ epochs = 500
 optimizer = torch.optim.AdamW(model.parameters(), lr=1e-5)
 criterion = nn.CrossEntropyLoss()
 
+run = neptune_fluent(encoder_id, decoder_id)
+bleu_result_eval = {"cumulative-4-gram":0}
+bleu_result_train = {"cumulative-4-gram":0}
+
 print("start training")
 for ep in range(epochs):
     torch.cuda.empty_cache()
@@ -102,6 +107,7 @@ for ep in range(epochs):
         loss.backward()
         optimizer.step()
 
+    run["train/loss"].append(total_loss)
     print(f'Epoch {ep+1}/{epochs} - Loss: {total_loss:.4f}')
     if (ep+1) % 10 == 0:
         print(f'\n-----------------------------------------')
@@ -123,11 +129,14 @@ for ep in range(epochs):
         print(f'-----------------------------------------\n')
 
     if (ep+1) % 10 == 0:
-        bleu_result = count_bleu_score(model, answers_eval, questions_eval)
-        bleu_score_eval = pd.concat([bleu_score_eval, pd.DataFrame({'Epoch': ep+1, **bleu_result}, index=[len(bleu_score_eval)])], ignore_index=True)
-        print(f'BLEU Score Eval: {bleu_result["cumulative-4-gram"]:.4f}\n')
+        bleu_result_eval = count_bleu_score(model, answers_eval, questions_eval)
+        bleu_score_eval = pd.concat([bleu_score_eval, pd.DataFrame({'Epoch': ep+1, **bleu_result_eval}, index=[len(bleu_score_eval)])], ignore_index=True)
+        print(f'BLEU Score Eval: {bleu_result_eval["cumulative-4-gram"]:.4f}\n')
 
-        bleu_result = count_bleu_score(model, answers, questions)
-        bleu_score_train = pd.concat([bleu_score_train, pd.DataFrame({'Epoch': ep+1, **bleu_result}, index=[len(bleu_score_train)])], ignore_index=True)
-        print(f'BLEU Score Train: {bleu_result["cumulative-4-gram"]:.4f}\n')
+        bleu_result_train = count_bleu_score(model, answers, questions)
+        bleu_score_train = pd.concat([bleu_score_train, pd.DataFrame({'Epoch': ep+1, **bleu_result_train}, index=[len(bleu_score_train)])], ignore_index=True)
+        print(f'BLEU Score Train: {bleu_result_train["cumulative-4-gram"]:.4f}\n')
+
+    run["train/bleu"].append(bleu_result_eval["cumulative-4-gram"])
+    run["eval/bleu"].append(bleu_result_train["cumulative-4-gram"])
 print("finished training")
