@@ -10,7 +10,7 @@ class FLUENTSOTA(nn.Module):
         self.dec_model = dec_model
         self.enc_tokenizer = enc_tokenizer
         self.dec_tokenizer = dec_tokenizer
-        self.enc_mapper = nn.Linear(1024, 1024)
+        self.enc_mapper = nn.Linear(768, 1024)
         self.enc_mapper2 = nn.Linear(1024, 1024)
         self.prefix_nn = nn.Linear(1024, 1024)
         self.prefix_nn2 = nn.Linear(1024, 1024)
