@@ -519,9 +519,6 @@ for epoch in range(epochs):
         bleu_eval_scores = calculate_bleu(all_generated_response, real_questions, truncated_real_answers)
         print(f"BLEU Eval Scores: {bleu_eval_scores}")
         last_eval_bleu = bleu_eval_scores["4-gram"]
-
-    run['eval/bleu'].append(last_eval_bleu)
-
         for i in range(5):
             print(f"Question: {real_questions[i]}")
             print(f"Real Answer: {truncated_real_answers[i]}")
@@ -529,6 +526,7 @@ for epoch in range(epochs):
             print()
 
         print("Finished Evaluation")
+    run['eval/bleu'].append(last_eval_bleu)
 
 
 save_dir = directory + '/experiment_' + '.pth.tar'
