@@ -499,6 +499,7 @@ transformer = transformer.to(device)
 adam_optimizer = torch.optim.Adam(transformer.parameters(), lr=0.001, betas=(0.9, 0.98), eps=1e-9)
 transformer_optimizer = AdamWarmup(model_size = d_model, warmup_steps = 4000, optimizer = adam_optimizer)
 criterion = LossWithLS(len(word_map), 0.2)
+last_eval_bleu = 0
 
 for epoch in range(epochs):
     loss_train = train(train_loader, transformer, criterion, epoch)
@@ -517,7 +518,9 @@ for epoch in range(epochs):
         
         bleu_eval_scores = calculate_bleu(all_generated_response, real_questions, truncated_real_answers)
         print(f"BLEU Eval Scores: {bleu_eval_scores}")
-        run['eval/bleu'].append(bleu_eval_scores["4-gram"])
+        last_eval_bleu = bleu_eval_scores["4-gram"]
+
+    run['eval/bleu'].append(last_eval_bleu)
 
         for i in range(5):
             print(f"Question: {real_questions[i]}")
