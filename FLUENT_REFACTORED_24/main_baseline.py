@@ -505,7 +505,7 @@ for epoch in range(epochs):
 
     run['train/loss'].append(loss_train)
 
-    if epoch % 5 == 0:
+    if epoch % 10 == 0:
         print("Starting Evaluation")
         all_generated_response = []
         for eval_question in real_questions:
