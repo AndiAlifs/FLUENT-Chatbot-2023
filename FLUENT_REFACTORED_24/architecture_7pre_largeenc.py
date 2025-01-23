@@ -50,7 +50,7 @@ class FLUENTSOTA(nn.Module):
         prefix_6 = self.prefix_nn6(enc_logits)
         prefix_7 = self.prefix_nn7(enc_logits)
 
-        prefixs = torch.stack((prefix_1, prefix_2, prefix_3), dim=1)
+        prefixs = torch.stack((prefix_1, prefix_2, prefix_3, prefix_4, prefix_5, prefix_6, prefix_7), dim=1)
         return prefixs
 
     def decoding_train(self, enc_logits, target, target_with_pre):
