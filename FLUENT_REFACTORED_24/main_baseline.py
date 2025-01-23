@@ -481,11 +481,17 @@ name = 'experiment_vanilla_16924_Ext1'
 
 d_model = 512
 heads = 4
-num_layers_enc = 5
-num_layers_dec =  5
+num_layers_enc = 3
+num_layers_dec = 3
 epochs = 500
 
 run = neptune_init(name)
+param = {
+    "encoder_model" : "3_scratch",
+    "decoder_model" : "3_scratch",
+    "num_pre_token" : 0,
+}
+run["parameters"] = param
 
 loss_history_vanilla_transformer = []
 
@@ -529,7 +535,7 @@ for epoch in range(epochs):
     run['eval/bleu'].append(last_eval_bleu)
 
 
-save_dir = directory + '/experiment_' + '.pth.tar'
+# save_dir = directory + '/experiment_' + '.pth.tar'
 # parameters = {
 #     'd_model': d_model,
 #     'heads': heads,
@@ -541,7 +547,7 @@ save_dir = directory + '/experiment_' + '.pth.tar'
 # run['parameters'] = parameters
 
 
-state = {'epoch': epoch, 'transformer': transformer, 'transformer_optimizer': transformer_optimizer}
+# state = {'epoch': epoch, 'transformer': transformer, 'transformer_optimizer': transformer_optimizer}
 # torch.save(state, save_dir)
 
-print('Model saved at epoch: {} name {}'.format(epoch, save_dir))
+# print('Model saved at epoch: {} name {}'.format(epoch, save_dir))
