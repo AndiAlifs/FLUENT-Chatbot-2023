@@ -13,6 +13,7 @@ from collections import Counter
 from torchinfo import summary
 from sklearn.decomposition import PCA
 from torch.utils.data import Dataset
+from evaluation_tool import calculate_bleu, compute_average_chrf
 
 # knowledgebase_url = 'https://github.com/AndiAlifs/FLUENT-Chatbot-2023/raw/main/KnowledgeBaseFilkom.xlsx'
 knowledgebase_url = 'https://github.com/AndiAlifs/FLUENT-Chatbot-2023/raw/main/KnowledgeBaseFilkom_simple.xlsx'
@@ -105,6 +106,7 @@ for i in list(knowledgebase_test['Jawaban']):
     truncated_real_answers.append(' '.join(splited[:90]))
 
 real_questions = list(knowledgebase_test['Pertanyaan'])
+real_train_questions = list(knowledgebase['Pertanyaan'])
 
 class Dataset(Dataset):
 
@@ -367,42 +369,6 @@ def neptune_init(name="cobain"):
     )
     return run        
 
-from nltk.translate.bleu_score import sentence_bleu
-
-def calculate_bleu(preds, questions, answers):
-    bleu_score_1 = 0
-    bleu_score_2 = 0
-    bleu_score_3 = 0
-    bleu_score_4 = 0
-    bleu_score_all = 0
-
-    num_of_rows_calculated = 0
-
-    for i, (question, real_answer) in enumerate(zip(questions, answers)):
-        # print(f"Question: {question}")
-        # print(f"Real Answer: {real_answer}")
-        # print(f"Predicted Answer: {preds[i]}")
-        try:
-            refs = [real_answer.split(' ')]
-            hyp = preds[i].split(' ')
-
-            bleu_score_1 += sentence_bleu(refs, hyp, weights=(1,0,0,0))
-            bleu_score_2 += sentence_bleu(refs, hyp, weights=(0,1,0,0))
-            bleu_score_3 += sentence_bleu(refs, hyp, weights=(0,0,1,0))
-            bleu_score_4 += sentence_bleu(refs, hyp, weights=(0,0,0,1))
-            bleu_score_all += sentence_bleu(refs, hyp, weights=(.25,.25,.25,.25))
-
-            num_of_rows_calculated+=1
-        except:
-            continue
-
-    results = {"1-gram": (bleu_score_1/num_of_rows_calculated),
-                "2-gram": (bleu_score_2/num_of_rows_calculated),
-                "3-gram": (bleu_score_3/num_of_rows_calculated),
-                "4-gram": (bleu_score_all/num_of_rows_calculated)}
-    
-    return results
-
 def train(train_loader, transformer, criterion, epoch):
     transformer.train()
     sum_loss = 0
@@ -506,11 +472,12 @@ adam_optimizer = torch.optim.Adam(transformer.parameters(), lr=0.001, betas=(0.9
 transformer_optimizer = AdamWarmup(model_size = d_model, warmup_steps = 4000, optimizer = adam_optimizer)
 criterion = LossWithLS(len(word_map), 0.2)
 last_eval_bleu = 0
+last_train_bleu = 0
+last_train_chrf = 0
+last_eval_chrf = 0
 
 for epoch in range(epochs):
     loss_train = train(train_loader, transformer, criterion, epoch)
-
-    run['train/loss'].append(loss_train)
 
     if epoch % 10 == 0:
         print("Starting Evaluation")
@@ -525,6 +492,25 @@ for epoch in range(epochs):
         bleu_eval_scores = calculate_bleu(all_generated_response, real_questions, truncated_real_answers)
         print(f"BLEU Eval Scores: {bleu_eval_scores}")
         last_eval_bleu = bleu_eval_scores["4-gram"]
+
+        last_eval_chrf = compute_average_chrf(all_generated_response, real_questions)
+        print(f"CHRF Eval Scores: {last_eval_chrf}")
+
+        all_generated_response = []
+        for eval_question in real_train_questions:
+            input_eval_question = [word_map.get(word, word_map['<unk>']) for word in eval_question.split()]
+            question = torch.LongTensor([input_eval_question]).to(device)
+            question_mask = (question!=0).to(device).unsqueeze(1).unsqueeze(1)  
+            generated_response = evaluate(transformer, question, question_mask, 90, word_map)
+            all_generated_response.append(generated_response)
+
+        bleu_train_scores = calculate_bleu(all_generated_response, real_train_questions, truncated_real_answers)
+        print(f"BLEU Train Scores: {bleu_train_scores}")
+        last_train_bleu = bleu_train_scores["4-gram"]
+
+        last_train_chrf = compute_average_chrf(all_generated_response, real_train_questions)
+        print(f"CHRF Train Scores: {last_train_chrf}")
+
         for i in range(5):
             print(f"Question: {real_questions[i]}")
             print(f"Real Answer: {truncated_real_answers[i]}")
@@ -532,7 +518,12 @@ for epoch in range(epochs):
             print()
 
         print("Finished Evaluation")
+
+    run['train/loss'].append(loss_train)
+    run['train/bleu'].append(last_train_bleu)
+    run['train/chrf'].append(last_train_chrf)
     run['eval/bleu'].append(last_eval_bleu)
+    run['eval/chrf'].append(last_eval_chrf)
 
 
 # save_dir = directory + '/experiment_' + '.pth.tar'
