@@ -4,7 +4,7 @@ from torch import nn
 from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 from data import qa_paired, qa_paired_eval
 from architecture_3pre_largeenc import FLUENTSOTA
-from evaluation_tool import calculate_bleu, count_bleu_score
+from evaluation_tool import calculate_bleu, count_bleu_score, compute_average_chrf, generate_predictions
 from neptune_fluent import Neptune_Fluent 
 
 import torch
@@ -79,6 +79,8 @@ criterion = nn.CrossEntropyLoss()
 run = Neptune_Fluent.mulai(encoder_id, decoder_id, num_pre_token=3)
 bleu_result_eval = {"cumulative-4-gram":0}
 bleu_result_train = {"cumulative-4-gram":0}
+chrf_result_eval = 0
+chrf_result_train = 0
 
 print("start training")
 for ep in range(epochs):
@@ -126,16 +128,24 @@ for ep in range(epochs):
         print(f'-----------------------------------------\n')
 
     if (ep+1) % 10 == 0:
-        bleu_result_eval = count_bleu_score(model, answers_eval, questions_eval)
+        preds_eval = generate_predictions(model, questions_eval)
+
+        bleu_result_eval = calculate_bleu(preds_eval, questions_eval, answers_eval)
         bleu_score_eval = pd.concat([bleu_score_eval, pd.DataFrame({'Epoch': ep+1, **bleu_result_eval}, index=[len(bleu_score_eval)])], ignore_index=True)
         print(f'BLEU Score Eval: {bleu_result_eval["cumulative-4-gram"]:.4f}\n')
 
-        bleu_result_train = count_bleu_score(model, answers, questions)
+        chrf_result_eval = compute_average_chrf(preds_eval, answers_eval)
+        print(f'CHRF Score Eval: {chrf_result_eval:.4f}\n')
+
+        preds_train = generate_predictions(model, questions)
+        bleu_result_train = calculate_bleu(preds_train, questions, answers)
         bleu_score_train = pd.concat([bleu_score_train, pd.DataFrame({'Epoch': ep+1, **bleu_result_train}, index=[len(bleu_score_train)])], ignore_index=True)
         print(f'BLEU Score Train: {bleu_result_train["cumulative-4-gram"]:.4f}\n')
 
-    run["train/bleu"].append(bleu_result_train["cumulative-4-gram"])
+    run["eval/chrf"].append(chrf_result_eval)
+    run["train/chrf"].append(chrf_result_train)
     run["eval/bleu"].append(bleu_result_eval["cumulative-4-gram"])
+    run["train/bleu"].append(bleu_result_train["cumulative-4-gram"])
 
 run.stop()
 print("finished training")
