@@ -142,6 +142,9 @@ for ep in range(epochs):
         bleu_score_train = pd.concat([bleu_score_train, pd.DataFrame({'Epoch': ep+1, **bleu_result_train}, index=[len(bleu_score_train)])], ignore_index=True)
         print(f'BLEU Score Train: {bleu_result_train["cumulative-4-gram"]:.4f}\n')
 
+        chrf_result_train = compute_average_chrf(preds_train, answers)
+        print(f'CHRF Score Train: {chrf_result_train:.4f}\n')
+
     run["eval/chrf"].append(chrf_result_eval)
     run["train/chrf"].append(chrf_result_train)
     run["eval/bleu"].append(bleu_result_eval["cumulative-4-gram"])
