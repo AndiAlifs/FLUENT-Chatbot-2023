@@ -510,7 +510,7 @@ for epoch in range(epochs):
             generated_response = evaluate(transformer, question, question_mask, 90, word_map)
             all_generated_response.append(generated_response)
 
-        bleu_train_scores = calculate_bleu(all_generated_response, real_train_questions, truncated_real_answers)
+        bleu_train_scores = calculate_bleu(all_generated_response, real_train_questions, truncated_real_train_answers)
         print(f"BLEU Train Scores: {bleu_train_scores}")
         last_train_bleu = bleu_train_scores["4-gram"]
 
