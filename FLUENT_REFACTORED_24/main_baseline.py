@@ -499,7 +499,7 @@ for epoch in range(epochs):
         print(f"BLEU Eval Scores: {bleu_eval_scores}")
         last_eval_bleu = bleu_eval_scores["4-gram"]
 
-        last_eval_chrf = compute_average_chrf(all_generated_response, real_questions)
+        last_eval_chrf = compute_average_chrf(all_generated_response, truncated_real_answers)
         print(f"CHRF Eval Scores: {last_eval_chrf}")
 
         all_generated_response = []
@@ -514,7 +514,7 @@ for epoch in range(epochs):
         print(f"BLEU Train Scores: {bleu_train_scores}")
         last_train_bleu = bleu_train_scores["4-gram"]
 
-        last_train_chrf = compute_average_chrf(all_generated_response, real_train_questions)
+        last_train_chrf = compute_average_chrf(all_generated_response, truncated_real_train_answers)
         print(f"CHRF Train Scores: {last_train_chrf}")
 
         for i in range(5):
