@@ -105,6 +105,12 @@ for i in list(knowledgebase_test['Jawaban']):
     splited = cleaned.split()
     truncated_real_answers.append(' '.join(splited[:90]))
 
+truncated_real_train_answers = []
+for i in list(knowledgebase['Jawaban']):
+    cleaned = remove_punc(i)
+    splited = cleaned.split()
+    truncated_real_train_answers.append(' '.join(splited[:90]))
+
 real_questions = list(knowledgebase_test['Pertanyaan'])
 real_train_questions = list(knowledgebase['Pertanyaan'])
 
