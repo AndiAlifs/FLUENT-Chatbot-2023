@@ -82,6 +82,8 @@ criterion = nn.CrossEntropyLoss()
 run = Neptune_Fluent.mulai(encoder_id, decoder_id)
 bleu_result_eval = {"cumulative-4-gram":0}
 bleu_result_train = {"cumulative-4-gram":0}
+chrf_result_eval = 0
+chrf_result_train = 0
 
 print("start training")
 for ep in range(epochs):
