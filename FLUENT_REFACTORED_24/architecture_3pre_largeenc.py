@@ -4,17 +4,17 @@ from torch import nn
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 class FLUENTSOTA(nn.Module):
-    def __init__(self, enc_model, dec_model, enc_tokenizer, dec_tokenizer, max_length=200):
+    def __init__(self, enc_model, dec_model, enc_tokenizer, dec_tokenizer, max_length=200, dec_size=1024):
         super(FLUENTSOTA, self).__init__()
         self.enc_model = enc_model
         self.dec_model = dec_model
         self.enc_tokenizer = enc_tokenizer
         self.dec_tokenizer = dec_tokenizer
-        self.enc_mapper = nn.Linear(1024, 1024)
-        self.enc_mapper2 = nn.Linear(1024, 1024)
-        self.prefix_nn = nn.Linear(1024, 1024)
-        self.prefix_nn2 = nn.Linear(1024, 1024)
-        self.prefix_nn3 = nn.Linear(1024, 1024)
+        self.enc_mapper = nn.Linear(1024, dec_size)
+        self.enc_mapper2 = nn.Linear(1024, dec_size)
+        self.prefix_nn = nn.Linear(dec_size, dec_size)
+        self.prefix_nn2 = nn.Linear(dec_size, dec_size)
+        self.prefix_nn3 = nn.Linear(dec_size, dec_size)
         self.max_length = max_length
     
     def encoding(self, sentence):

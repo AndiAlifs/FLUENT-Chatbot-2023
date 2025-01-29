@@ -56,6 +56,7 @@ for param in enc_model.encoder.layer[:-15].parameters():
 print("Encoder Trainable Parameters : {}%".format(sum(p.numel() for p in enc_model.parameters() if p.requires_grad)/sum(p.numel() for p in enc_model.parameters())*100))
 print("Decoder Trainable Parameters : {}%".format(sum(p.numel() for p in dec_model.parameters() if p.requires_grad)/sum(p.numel() for p in dec_model.parameters())*100))
 
+dec_size = 1280 if 'large' in decoder_id else 1024
 model = FLUENTSOTA(enc_model, dec_model, enc_tokenizer, dec_tokenizer)
 model.to(device)
 
