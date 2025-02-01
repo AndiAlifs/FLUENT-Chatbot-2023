@@ -40,7 +40,7 @@ class FLUENTSOTA(nn.Module):
     def decoding_train(self, enc_logits, target, target_with_pre):
         # prefixs = self.add_prefix(enc_logits)
         embed = self.get_embedding(target)
-        pref_with_embed = torch.cat((embed), dim=1)
+        pref_with_embed = embed
         output = self.dec_model(inputs_embeds=pref_with_embed, labels=target_with_pre)
         return output
 
@@ -50,7 +50,7 @@ class FLUENTSOTA(nn.Module):
         prefix_dec_embed = self.get_embedding(prefix_se)
         # prefixs = self.add_prefix(enc_logits)
         
-        pref_with_embed = torch.cat((prefix_dec_embed), dim=1)
+        pref_with_embed = prefix_dec_embed
 
         output = self.dec_model.generate(   inputs_embeds=pref_with_embed, 
                                             max_length=self.max_length, 
