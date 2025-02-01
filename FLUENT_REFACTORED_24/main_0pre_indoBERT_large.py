@@ -77,7 +77,7 @@ epochs = 500
 optimizer = torch.optim.AdamW(model.parameters(), lr=1e-5)
 criterion = nn.CrossEntropyLoss()
 
-run = Neptune_Fluent.mulai(encoder_id, decoder_id, num_pre_token=3)
+run = Neptune_Fluent.mulai(encoder_id, decoder_id, num_pre_token=0)
 bleu_result_eval = {"cumulative-4-gram":0}
 bleu_result_train = {"cumulative-4-gram":0}
 chrf_result_eval = 0
