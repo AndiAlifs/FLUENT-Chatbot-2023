@@ -49,7 +49,7 @@ class FLUENTSOTA(nn.Module):
         prefix_dec_embed = self.get_embedding(prefix_se)
         # prefixs = self.add_prefix(enc_logits)
         
-        pref_with_embed = prefix_dec_embed
+        pref_with_embed = torch.cat((enc_logits.unsqueeze(dim=0), prefix_dec_embed), dim=1)
 
         output = self.dec_model.generate(   inputs_embeds=pref_with_embed, 
                                             max_length=self.max_length, 
