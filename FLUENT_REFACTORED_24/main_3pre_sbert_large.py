@@ -24,8 +24,6 @@ dec_model = GPT2LMHeadModel.from_pretrained(decoder_id)
 dec_tokenizer = GPT2Tokenizer.from_pretrained(decoder_id, clean_up_tokenization_spaces=True)
 
 dec_tokenizer.add_tokens(['[PRE1]'])
-dec_tokenizer.add_tokens(['[PRE2]'])
-dec_tokenizer.add_tokens(['[PRE3]'])
 dec_tokenizer.add_special_tokens({'pad_token': '[PAD]',
                                     'bos_token': '[BOS]',
                                     'eos_token': '[EOS]',
@@ -95,7 +93,7 @@ for ep in range(epochs):
 
         pertanyaan = instance[1]['Pertanyaan']
         jawaban = instance[1]['Jawaban']
-        jawaban_withpre = '[PRE1][PRE2][PRE3]' + jawaban
+        jawaban_withpre = '[PRE1]' + jawaban
 
         tokenized_jawaban_withpre = model.dec_tokenizer(jawaban_withpre)
         tokenized_jawaban_withpre = torch.tensor(tokenized_jawaban_withpre['input_ids']).unsqueeze(0)
