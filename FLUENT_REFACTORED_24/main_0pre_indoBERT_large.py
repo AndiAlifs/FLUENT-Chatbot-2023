@@ -94,13 +94,13 @@ for ep in range(epochs):
 
         pertanyaan = instance[1]['Pertanyaan']
         jawaban = instance[1]['Jawaban']
-        jawaban_withpre = '[PRE1][PRE2][PRE3]' + jawaban
+        jawaban_withpre = '[PRE1]' + jawaban
 
         tokenized_jawaban_withpre = model.dec_tokenizer(jawaban_withpre)
         tokenized_jawaban_withpre = torch.tensor(tokenized_jawaban_withpre['input_ids']).unsqueeze(0)
 
         enc_logits = model.encoding(pertanyaan)
-        output = model.decoding_train(enc_logits, target=jawaban, target_with_pre=tokenized_jawaban_withpre)
+        output = model.decoding_train(enc_logits.unsqueeze(dim=0), target=jawaban, target_with_pre=tokenized_jawaban_withpre)
 
         loss = output.loss
         total_loss += loss.item()
