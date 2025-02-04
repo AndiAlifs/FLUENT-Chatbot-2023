@@ -3,7 +3,7 @@ from sklearn.decomposition import PCA
 from torch import nn
 from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 from data import qa_paired, qa_paired_eval
-from architecture_3pre_largeenc import FLUENTSOTA
+from architecture_1pre_largeenc import FLUENTSOTA
 from evaluation_tool import calculate_bleu, count_bleu_score, compute_average_chrf, generate_predictions
 from neptune_fluent import Neptune_Fluent 
 
@@ -76,7 +76,7 @@ answers_eval = qa_paired_eval['Jawaban'].apply(lambda x: x.replace('[BOS]', '').
 epochs = 500
 optimizer = torch.optim.AdamW(model.parameters(), lr=1e-5)
 criterion = nn.CrossEntropyLoss()
-run = Neptune_Fluent.mulai(encoder_id, decoder_id, num_pre_token=3)
+run = Neptune_Fluent.mulai(encoder_id, decoder_id, num_pre_token=0)
 bleu_result_eval = {"cumulative-4-gram":0}
 bleu_result_train = {"cumulative-4-gram":0}
 chrf_result_eval = 0
@@ -93,7 +93,7 @@ for ep in range(epochs):
 
         pertanyaan = instance[1]['Pertanyaan']
         jawaban = instance[1]['Jawaban']
-        jawaban_withpre = '[PRE1][PRE2][PRE3]' + jawaban
+        jawaban_withpre = '[PRE1]' + jawaban
 
         tokenized_jawaban_withpre = model.dec_tokenizer(jawaban_withpre)
         tokenized_jawaban_withpre = torch.tensor(tokenized_jawaban_withpre['input_ids']).unsqueeze(0)
