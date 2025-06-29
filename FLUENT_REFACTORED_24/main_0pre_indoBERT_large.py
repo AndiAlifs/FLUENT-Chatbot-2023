@@ -94,7 +94,7 @@ for ep in range(epochs):
 
         pertanyaan = instance[1]['Pertanyaan']
         jawaban = instance[1]['Jawaban']
-        jawaban_withpre = jawaban
+        jawaban_withpre = '[PRE1]'+jawaban
 
         tokenized_jawaban_withpre = model.dec_tokenizer(jawaban_withpre)
         tokenized_jawaban_withpre = torch.tensor(tokenized_jawaban_withpre['input_ids']).unsqueeze(0)
