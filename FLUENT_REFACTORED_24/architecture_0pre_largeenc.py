@@ -12,9 +12,10 @@ class FLUENTSOTA(nn.Module):
         self.dec_tokenizer = dec_tokenizer
         self.enc_mapper = nn.Linear(1024, dec_size)
         self.enc_mapper2 = nn.Linear(dec_size, dec_size)
+
+        self.prefix_param = nn.Parameter(torch.randn(1, 1, dec_size))  # Learnable parameter for prefix 
+
         self.prefix_nn = nn.Linear(dec_size, dec_size)
-        self.prefix_nn2 = nn.Linear(dec_size, dec_size)
-        self.prefix_nn3 = nn.Linear(dec_size, dec_size)
         self.max_length = max_length
     
     def encoding(self, sentence):
@@ -26,6 +27,12 @@ class FLUENTSOTA(nn.Module):
         enc_logits = self.enc_mapper(enc_logits).to(device)
         enc_logits = self.enc_mapper2(enc_logits).to(device)
         return enc_logits
+    
+    def get_prefix(self, batch_size=1):
+        # Process the learnable parameter through prefix_nn layers
+        prefix = self.prefix_param.expand(batch_size, 1, -1)
+        prefix = self.prefix_nn(prefix)
+        return prefix
 
     def get_embedding(self, sentence):
         tokens = self.dec_tokenizer(sentence, return_tensors='pt', padding=True, truncation=True, max_length=self.max_length)
@@ -38,8 +45,9 @@ class FLUENTSOTA(nn.Module):
         return tokens
 
     def decoding_train(self, enc_logits, target, target_with_pre):
+        prefix = self.get_prefix(batch_size=enc_logits.size(0))
         embed = self.get_embedding(target)
-        pref_with_embed = torch.cat((enc_logits.unsqueeze(dim=1), embed), dim=1)
+        pref_with_embed = torch.cat((prefix, embed), dim=1)
         output = self.dec_model(inputs_embeds=pref_with_embed, labels=target_with_pre)
         return output
 
@@ -49,9 +57,9 @@ class FLUENTSOTA(nn.Module):
         prefix_dec_embed = self.get_embedding(prefix_se)
         # prefixs = self.add_prefix(enc_logits)
         
-        pref_with_embed = torch.cat((enc_logits.unsqueeze(dim=0), prefix_dec_embed), dim=1)
+        # pref_with_embed = torch.cat((enc_logits.unsqueeze(dim=0), prefix_dec_embed), dim=1)
 
-        output = self.dec_model.generate(   inputs_embeds=pref_with_embed, 
+        output = self.dec_model.generate(   inputs_embeds=prefix_dec_embed, 
                                             max_length=self.max_length, 
                                             pad_token_id=self.dec_model.config.eos_token_id)
         returned_output = []
