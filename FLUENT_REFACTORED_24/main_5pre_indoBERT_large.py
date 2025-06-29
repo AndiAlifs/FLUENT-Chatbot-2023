@@ -48,8 +48,8 @@ for param in enc_model.parameters():
 for param in dec_model.parameters():
     param.requires_grad = False
 
-for param in dec_model.transformer.h[:-15].parameters():
-    param.requires_grad = True
+# for param in dec_model.transformer.h[:-15].parameters():
+#     param.requires_grad = True
 
 for param in enc_model.encoder.layer[:-15].parameters():
     param.requires_grad = True
