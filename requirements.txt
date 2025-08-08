@@ -5,9 +5,9 @@ matplotlib==3.6.3
 scikit-learn==1.2.1
 
 # Deep Learning Frameworks
-torch==1.13.1+cu116
-torchaudio==0.13.1+cu116
-torchvision==0.14.1+cu116
+torch==1.13.1
+torchaudio==0.13.1
+torchvision==0.14.1
 tensorflow==2.8.2
 
 # Natural Language Processing
