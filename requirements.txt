@@ -1,0 +1,106 @@
+# Core Python Data Science Libraries
+pandas>=1.3.3
+numpy>=1.20.0
+matplotlib>=3.5.0
+scikit-learn>=1.0.0
+
+# Deep Learning Frameworks
+torch>=1.9.0
+tensorflow>=2.8.0
+
+# Natural Language Processing
+transformers>=4.20.0
+nltk>=3.7
+sentence-transformers>=2.0.0
+
+# Machine Learning Evaluation
+evaluate>=0.4.0
+
+# Jupyter Notebook Support
+jupyter>=1.0.0
+ipykernel>=6.0.0
+notebook>=6.4.0
+
+# Data Processing and Utilities
+openpyxl>=3.0.9
+xlrd>=2.0.1
+yaml>=6.0
+pyyaml>=5.1
+
+# Model Training and Monitoring
+neptune-client>=0.16.0
+torchinfo>=1.7.0
+
+# Text Processing and Metrics
+rouge-score>=0.1.2
+
+# HTTP Requests and File Handling
+requests>=2.25.0
+urllib3>=1.26.0
+
+# Scientific Computing
+scipy>=1.7.0
+
+# Progress Bars and UI
+tqdm>=4.60.0
+
+# Data Validation and Type Hints
+typing-extensions>=4.0.0
+
+# File System Operations
+fsspec>=2021.05.0
+
+# Tokenization Support
+tokenizers>=0.13.0
+
+# JSON and Configuration
+jsonlines>=3.0.0
+
+# Audio Processing (for some notebooks)
+librosa>=0.9.0
+soundfile>=0.10.0
+
+# Development and Code Quality
+flake8>=4.0.0
+black>=22.0.0
+isort>=5.10.0
+
+# Additional ML Tools
+datasets>=2.2.0
+huggingface-hub>=0.10.0
+
+# Graph and Network Analysis
+networkx>=2.6.0
+
+# Mathematical Operations
+sympy>=1.9.0
+
+# Memory and Performance
+psutil>=5.8.0
+
+# Threading and Multiprocessing
+threadpoolctl>=3.0.0
+
+# Compression and Archives
+zstandard>=0.15.0
+
+# Development Tools
+pre-commit>=2.19.0
+virtualenv>=20.10.0
+
+# Additional utilities that may be needed
+six>=1.16.0
+certifi>=2021.0.0
+charset-normalizer>=2.0.0
+idna>=3.0.0
+packaging>=21.0.0
+python-dateutil>=2.8.0
+pytz>=2021.0.0
+
+# Optional: GPU acceleration (uncomment if using CUDA)
+torch-audio>=0.9.0
+triton>=2.0.0
+
+# Optional: Additional NLP libraries
+# spacy>=3.4.0
+# gensim>=4.1.0
