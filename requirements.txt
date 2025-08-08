@@ -1,94 +1,71 @@
-# Core Python Data Science Libraries
+# Core Python Data Science Libraries (USED)
 pandas==1.5.3
 numpy==1.24.1
 matplotlib==3.6.3
 scikit-learn==1.2.1
 
-# Deep Learning Frameworks
+# Deep Learning Frameworks (USED)
 torch==1.13.1
 torchaudio==0.13.1
 torchvision==0.14.1
-tensorflow==2.8.2
+tensorflow==2.8.2  # Used in FLUENT_PLAYGROUND legacy notebooks
 
-# Natural Language Processing
+# Natural Language Processing (USED)
 transformers==4.45.0
 nltk==3.9.1
 sentence-transformers==3.0.1
 
-# Machine Learning Evaluation
-# Note: evaluate package not in working environment, using alternatives
-# evaluate>=0.4.0
-
-# Jupyter Notebook Support
+# Jupyter Notebook Support (USED)
 jupyter>=1.0.0
 ipykernel==6.9.1
 notebook>=6.4.0
 ipython==8.4.0
 ipywidgets==8.0.4
 
-# Data Processing and Utilities
+# Data Processing and Utilities (USED)
 openpyxl==3.1.5
-# xlrd>=2.0.1  # Not in working environment
 PyYAML==6.0.2
-pyaml==25.7.0
 
-# Model Training and Monitoring
+# Model Training and Monitoring (USED)
 neptune==1.10.4
 torchinfo==1.8.0
 
-# Text Processing and Metrics
-# rouge-score>=0.1.2  # Not in working environment
-
-# HTTP Requests and File Handling
+# HTTP Requests and File Handling (USED)
 requests==2.32.3
 urllib3==1.26.19
 
-# Scientific Computing
+# Scientific Computing (USED)
 scipy==1.10.0
 
-# Progress Bars and UI
+# Progress Bars and UI (USED)
 tqdm==4.67.1
 
-# Data Validation and Type Hints
+# Data Validation and Type Hints (USED)
 typing-extensions==4.4.0
 
-# File System Operations
+# File System Operations (USED)
 fsspec==2024.6.1
 
-# Tokenization Support
+# Tokenization Support (USED)
 tokenizers==0.20.3
 
-# JSON and Configuration
-# jsonlines>=3.0.0  # Not in working environment
-
-# Development and Code Quality
-# flake8>=4.0.0     # Not in working environment
-# black>=22.0.0     # Not in working environment
-# isort>=5.10.0     # Not in working environment
-
-# Additional ML Tools
+# Additional ML Tools (USED)
 datasets==2.20.0
 huggingface-hub==0.24.5
 
-# Graph and Network Analysis
-networkx==3.3
-
-# Mathematical Operations
+# Mathematical Operations (USED) 
 sympy==1.13.3
 
-# Memory and Performance
+# Memory and Performance (USED)
 psutil==6.0.0
 
-# Threading and Multiprocessing
+# Threading and Multiprocessing (USED)
 threadpoolctl==3.1.0
 
-# Compression and Archives
-zstandard==0.23.0
-
-# Development Tools
+# Development Tools (USED)
 virtualenv==20.26.6
 
-# Additional utilities that are needed
+# Additional utilities that are needed (USED)
 six==1.16.0
 certifi==2022.6.15
 charset-normalizer==2.0.4
@@ -97,20 +74,11 @@ packaging==23.0
 python-dateutil==2.8.2
 pytz==2022.7.1
 
-# GPU acceleration (CUDA support)
-# These are included in the working environment
-
-# Additional NLP and ML libraries from working environment
-gensim==4.3.3
+# Additional NLP and ML libraries from working environment (USED)
 regex==2024.7.24
 safetensors==0.4.4
 
-# Image Processing
-opencv-python==4.10.0.84
-opencv-python-headless==4.10.0.84
-Pillow==9.4.0
-
-# Additional utilities from working environment
+# Additional utilities from working environment (USED)
 joblib==1.2.0
 filelock==3.15.4
 click==8.1.7
@@ -119,15 +87,23 @@ MarkupSafe==2.1.2
 protobuf==3.19.6
 dill==0.3.8
 
-# Optional: Additional packages that may be useful
-beautifulsoup4==4.13.1
-plotly==5.24.1
-seaborn==0.13.2
-
-# TensorBoard for monitoring
-tensorboard==2.8.0
-tensorboard-data-server==0.6.1
-
-# Additional torch utilities
+# Additional torch utilities (USED)
 torchmetrics==1.4.1
 torchsummary==1.5.1
+
+# Standard library modules (built-in, no need to install)
+# json, math, time, os, collections
+
+# REMOVED PACKAGES (NOT USED IN CODEBASE):
+# pyaml==25.7.0                    # Not found in imports
+# networkx==3.3                    # Not found in imports  
+# zstandard==0.23.0               # Not found in imports
+# gensim==4.3.3                   # Not found in imports
+# opencv-python==4.10.0.84        # Not found in imports
+# opencv-python-headless==4.10.0.84  # Not found in imports
+# Pillow==9.4.0                   # Not found in imports
+# beautifulsoup4==4.13.1          # Not found in imports
+# plotly==5.24.1                  # Not found in imports
+# seaborn==0.13.2                 # Not found in imports
+# tensorboard==2.8.0              # Not found in imports
+# tensorboard-data-server==0.6.1  # Not found in imports
